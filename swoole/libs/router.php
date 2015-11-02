@@ -38,13 +38,17 @@ class router{
 				$controller = $this->controller[$code];
 			}else{
 				$app_name = explode('/', APP_PATH);
-				$class = '\\'.ucfirst($app_name[1]).'\\Controller\\'.$c;
+				$class = '\\'.ucfirst($app_name[1]).'\\Controller\\'.$c.'Controller';
 				$this->controller[$code] = new $class;
 				$controller = $this->controller[$code];
 			}
-			$controller->$a();
+			// 组装action
+			$action = $a.'Action';
+			$controller->initialize();
+			$controller->$action();
 		}else{
-			$controller = new Swoole\Controller\Controller();
+			$controller = new \Swoole\Controller\Controller();
+			$controller->initialize();
 			$controller->notFound();
 		}
 	}

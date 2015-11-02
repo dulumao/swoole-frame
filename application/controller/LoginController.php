@@ -6,9 +6,9 @@ namespace Application\Controller;
  * Date: 2015/10/20
  * Time: 9:31
  */
-class Auth
-{
-    public static function index(){
+class LoginController extends BaseController {
+
+    public function authAction(){
         echo 222;
     }
 }
