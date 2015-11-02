@@ -8,7 +8,7 @@
 if(isset($argv[1])){
     switch($argv[1]){
         case 'start':
-            system ( 'php server.php');
+            system ( 'php bin/server.php');
             break;
         case 'stop':
             // 获取master进程号
@@ -25,12 +25,12 @@ if(isset($argv[1])){
             $pid = file_get_contents('./run/master.pid');
             system('sudo kill -SIGTERM '.$pid);
             sleep(1);
-            system ( 'php server.php');
+            system ( 'php bin/server.php');
             break;
         default:
-            echo 'Usage: php manager.php (start | stop | reload | restart)'.PHP_EOL;
+            echo 'Usage: php socket.php (start | stop | reload | restart)'.PHP_EOL;
             break;
     }
 }else{
-    echo 'Usage: php manager.php (start | stop | reload | restart)'.PHP_EOL;
+    echo 'Usage: php socket.php (start | stop | reload | restart)'.PHP_EOL;
 }

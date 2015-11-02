@@ -3,7 +3,7 @@ namespace Swoole\Model;
 /**
  * Mongodb模型实现
  */
-class Mongodb {
+class MongoModel {
 	// 当前mongo连接
 	protected $mongo;
 	// 当前mongo数据库
@@ -21,11 +21,11 @@ class Mongodb {
 	// 排序
 	protected $cursor_sort;
 
-	public function __construct($mongo_server, $connect=true, $auto_balance=true){
+	public function __construct($name , $mongo_server){
 		// 回调自定义的初始化方法
 		$this->_initialize();    
         try {     
-            $this->mongo = new \MongoClient($mongo_server, array('connect'=>$connect));     
+            $this->mongo = new \MongoClient($mongo_server, array('connect'=>true));     
         }catch (MongoConnectionException $e){     
             $this->error = $e->getMessage();     
             return false;     

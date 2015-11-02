@@ -1,5 +1,5 @@
 <?php
-namespace Application\Service;
+namespace Application\Controller;
 /**
  * 验证用户信息
  * User: Kp

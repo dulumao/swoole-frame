@@ -7,19 +7,22 @@
  */
 
 //添加自动加载
-include 'swoole/load.php';
+include './swoole/load.php';
 //定义项目路径
-define('APP_PATH' , './application');
+define('APP_PATH' , '../application/');
 
-use Application\Service\Auth;
-use Application\Library\redisCli;
 class TcpServer{
     // 配置项
     protected $set;
 
-    public function __construct(){
-        // 获取配置参数
-        $this->set = include ROOT_PATH . '/config/configure.php';
+    public function __construct($set = array()){
+        if(empty($set)){
+            // 获取配置参数
+            $this->set = include ROOT_PATH . '/config/configure.php';
+        }else{
+            // 读取传过来的配置
+            $this->set = $set;
+        }
         // 获取到了配置参数才开启服务
         if($this->set){
             $serv = new swoole_server("0.0.0.0", 9501 , SWOOLE_PROCESS, SWOOLE_SOCK_TCP | SWOOLE_SSL);
@@ -60,8 +63,18 @@ class TcpServer{
 
     // 连接回调
     public function onConnect(swoole_server $serv , $fd){
-        Auth::index();
-        $redis = redisCli::getInstance()->createRedis();
+        $adapter = array(
+            '10000'=>array('c'=>'Auth','a'=>'index'),
+            );
+        $router = Swoole\Libs\router::getInstance($adapter);
+        $router->adapter(10000);
+        // Auth::index();
+        // $redis = redisCli::getInstance()->createRedis();
+        // $status = $redis->set('name','zhangsan');
+        // $value = $redis->get('name');
+        // echo $value;
+        // $model = new MongoModel();
+        // var_dump($model);
         echo "Client {$fd} open connection". PHP_EOL;
     }
 
